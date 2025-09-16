@@ -135,8 +135,8 @@ def multiply_digit_string(single_digit: str, digits: str) -> str:
 
     for i in range(len(digits)):
         c_m, s = multiply_single_digit(single_digit, digits[i])
-        _, tmp = add_single_digit(s, current_carry)
-        current_carry = c_m
+        c, tmp = add_single_digit(s, current_carry)
+        _, current_carry = add_single_digit(c_m, c)
         result += tmp
 
     result = result[::-1]
@@ -152,6 +152,36 @@ def basic_multiply(m, n):
     if len(n) > len(m):
         m, n = n, m
 
-    # reverse strings of m, n
-    m = m[::-1]
+    padding = ""
+    result = "0"
+
     n = n[::-1]
+
+    print(f"m : {m}, n : {n[::-1]}")
+
+    for single_digit in n:
+        tmp = multiply_digit_string(single_digit, m)         
+        tt = tmp
+        tmp += padding
+        result = add_integers(result, tmp)
+        padding += "0"
+
+        print(f"m : {m}")
+        print(f"single digit : {single_digit}")
+        print(f"single digit * m  : {tt}")
+        
+        if int(single_digit) * int(m) != int(tt):
+            print(f"it shulde be {int(single_digit) * int(m)}")
+            print("WRONG!!!!")
+            break
+
+
+        print(f"result = {result}")
+
+        
+
+        print("-"*50)
+
+    print(result)
+
+basic_multiply("123456789123456789", "987654321987654321")
